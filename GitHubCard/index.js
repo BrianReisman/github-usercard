@@ -3,9 +3,34 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-import axios from 'axios'
-axios
-  .get('https://api.github.com/users/brianreisman')
+import axios from "axios";
+
+const entryPoint = document.querySelector(".cards"); //this may not work due to hoisting
+console.log(entryPoint);
+
+const followersArray = [
+  "tetondan",
+  "dustinmyers",
+  "justsml",
+  "luishrd",
+  "bigknell",
+  "brianreisman",
+]; //followersArray.forEach()
+
+followersArray.forEach((person) => {
+  axios
+    .get(`https://api.github.com/users/${person}`)
+    .then((futureData) => {
+      //best case
+      const allData = futureData.data;
+      const myCard = cardMaker(allData);
+      entryPoint.appendChild(myCard);
+    })
+    .catch((drama) => {
+      console.log("uh oh!", drama);
+      debugger;
+    });
+});
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -16,14 +41,12 @@ axios
 */
 
 /*
-  STEP 4: Pass the data received from Github into your function,
+  STEP 4: Pass the data received from the Github API into your function,
     and append the returned markup to the DOM as a child of .cards
 */
 
 /*
-  STEP 5: Now that you have your own card getting added to the DOM, either
-    follow this link in your browser https://api.github.com/users/<Your github name>/followers,
-    manually find some other users' github handles, or use the list found at the
+  STEP 5: Now that you have your own card getting added to the DOM, use the list found at the
     bottom of the page. Get at least 5 different Github usernames and add them as
     Individual strings to the friendsArray below.
 
@@ -31,42 +54,63 @@ axios
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+function cardMaker(singleObj) {
+  //creating elements
+  const divCard = document.createElement("div");
+  const image = document.createElement("img");
+  const cardInfo = document.createElement("div");
+  const h3Name = document.createElement("h3");
+  const pUsername = document.createElement("p");
+  const pLocation = document.createElement("p");
+  const pProfile = document.createElement("p");
+  const link = document.createElement("a"); ///
+  const pFollowers = document.createElement("p");
+  const pFollowing = document.createElement("p");
+  const pBio = document.createElement("p");
 
-function cardMaker(){
-//creating elements
-const divCard = document.createElement('div')
-const image = document.createElement('img')
-const cardInfo = document.createElement('div')
-const h3Name = document.createElement('h3')
-const pUsername = document.createElement('p')
-const pLocation = document.createElement('p')
-const pProfile = document.createElement('p')
-const ahref = document.createElement('a')
-const pFollowers = document.createElement('p')
-const pFollowing = document.createElement('p')
-const pBio = document.createElement('p')
-//heirarchy
-divCard.appendChild(image)
-divCard.appendChild(cardInfo)
-cardInfo.appendChild(h3Name)
-cardInfo.appendChild(pUsername)
-cardInfo.appendChild(pLocation)
-cardInfo.appendChild(pProfile)
-pProfile.appendChild(ahref)
-cardInfo.appendChild(pFollowers)
-cardInfo.appendChild(pFollowing)
-cardInfo.appendChild(pBio)
-//add class and attributes
-divCard.classList('card')
-cardInfo.classList('card-info')
-h3Name.classList('name')
-pUsername.classList('username')
+  //wired them up
+  divCard.appendChild(image);
+  divCard.appendChild(cardInfo);
+  cardInfo.appendChild(h3Name);
+  cardInfo.appendChild(pUsername);
+  cardInfo.appendChild(pLocation);
+  cardInfo.appendChild(pProfile);
+  pProfile.appendChild(link); ///
+  cardInfo.appendChild(pFollowers);
+  cardInfo.appendChild(pFollowing);
+  cardInfo.appendChild(pBio);
+  //add class and attributes
+  divCard.classList.add("card");
+  cardInfo.classList.add("card-info");
+  h3Name.classList.add("name");
+  pUsername.classList.add("username");
+  image.setAttribute("src", singleObj.avatar_url);
+  link.setAttribute("href", "https://github.com/BrianReisman"); ///
 
-return divCard
+  // //textContent
+  h3Name.textContent = singleObj.name;
+  pUsername.textContent = singleObj.login;
+  pLocation.textContent = `Location: ${singleObj.location}`;
+  link.textContent = `Profile: ${singleObj.html_url}`;
+  link.setAttribute("href", singleObj.html_url); ///
+  pFollowers.textContent = `Followers: ${singleObj.followers}`;
+  pFollowing.textContent = `Following: ${singleObj.following}`;
+  pBio.textContent = `Bio: ${singleObj.bio}`;
+  // //textContent
+  // h3Name.textContent = 'singleObj.name'
+  // pUsername.textContent = 'singleObj.login'
+  // pLocation.textContent = `'Location: {singleObj.location}'`
+  // link.textContent = '`Profile: ${singleObj.html_url}`'
+  // link.setAttribute('href', singleObj.html_url)     ///
+  // pFollowers.textContent = '`Followers: ${singleObj.followers}`'
+  // pFollowing.textContent = '`Following: ${singleObj.following}`'
+  // pBio.textContent = '`Bio: ${singleObj.bio}`'
+
+  //return what you've made!
+  console.log(divCard);
+  return divCard;
 }
-
-console.log('hi')
+console.log(cardMaker());
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -87,9 +131,6 @@ console.log('hi')
       </div>
     </div>
 */
-
-
-
 
 /*
   List of LS Instructors Github username's:
