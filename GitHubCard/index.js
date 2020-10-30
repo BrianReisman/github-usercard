@@ -8,14 +8,7 @@ import axios from "axios";
 const entryPoint = document.querySelector(".cards"); //this may not work due to hoisting
 console.log(entryPoint);
 
-const followersArray = [
-  "tetondan",
-  "dustinmyers",
-  "justsml",
-  "luishrd",
-  "bigknell",
-  "brianreisman",
-]; //followersArray.forEach()
+const followersArray = [  "tetondan",  "dustinmyers",  "justsml",  "luishrd",  "bigknell",  "brianreisman"]; //followersArray.forEach()
 
 followersArray.forEach((person) => {
   axios
@@ -85,26 +78,20 @@ function cardMaker(singleObj) {
   h3Name.classList.add("name");
   pUsername.classList.add("username");
   image.setAttribute("src", singleObj.avatar_url);
-  link.setAttribute("href", "https://github.com/BrianReisman"); ///
 
   // //textContent
   h3Name.textContent = singleObj.name;
   pUsername.textContent = singleObj.login;
   pLocation.textContent = `Location: ${singleObj.location}`;
-  link.textContent = `Profile: ${singleObj.html_url}`;
+  link.innerHTML = `Profile: ${singleObj.html_url}`;
   link.setAttribute("href", singleObj.html_url); ///
+
+//ALT for another day  pProfile.innerHTML = `Profile: <a>${singleObj.html_url}</a>`
+
+
   pFollowers.textContent = `Followers: ${singleObj.followers}`;
   pFollowing.textContent = `Following: ${singleObj.following}`;
   pBio.textContent = `Bio: ${singleObj.bio}`;
-  // //textContent
-  // h3Name.textContent = 'singleObj.name'
-  // pUsername.textContent = 'singleObj.login'
-  // pLocation.textContent = `'Location: {singleObj.location}'`
-  // link.textContent = '`Profile: ${singleObj.html_url}`'
-  // link.setAttribute('href', singleObj.html_url)     ///
-  // pFollowers.textContent = '`Followers: ${singleObj.followers}`'
-  // pFollowing.textContent = '`Following: ${singleObj.following}`'
-  // pBio.textContent = '`Bio: ${singleObj.bio}`'
 
   //return what you've made!
   console.log(divCard);
