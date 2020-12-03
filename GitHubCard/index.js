@@ -1,15 +1,25 @@
 import axios from "axios";
 
-axios
-  // .get(`https://api.github.com/users/brianreisman`)
-  .get(`https://api.github.com/users/${user}`)
-  .then((res) => {
-    console.log(res);
-    Func(res.data);
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+const followersArray = [
+  "tetondan",
+  "dustinmyers",
+  "justsml",
+  "luishrd",
+  "bigknell",
+  "brianreisman",
+];
+followersArray.forEach((user) => {
+  axios
+    // .get(`https://api.github.com/users/brianreisman`)
+    .get(`https://api.github.com/users/${user}`)
+    .then((res) => {
+      // console.log(res);
+      Func(res.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
 
 /*
   STEP 1: using axios, send a GET request to the following URL
@@ -41,7 +51,59 @@ axios
     user, and adding that card to the DOM.
 */
 
+// const followersArray = [];
 
+function Func(dataObj) {
+  const divCard = document.createElement("div");
+  divCard.classList.add("card");
+
+  const image = document.createElement("img");
+  image.setAttribute("src", dataObj.avatar_url);
+
+  const divCardInfo = document.createElement("div");
+  divCardInfo.classList.add("card-info");
+
+  const h3 = document.createElement("h3");
+  h3.classList.add("name");
+  h3.textContent = dataObj.name;
+
+  const pUsername = document.createElement("p");
+  pUsername.classList.add("username");
+  pUsername.textContent = dataObj.login;
+
+  const pLocation = document.createElement("p");
+  pLocation.textContent = dataObj.location;
+
+  const pProfile = document.createElement("p");
+  pProfile.textContent = "Profile:";
+
+  const link = document.createElement("a");
+  link.setAttribute("href", dataObj.html_url);
+  link.textContent = dataObj.html_url;
+
+  const pFollowers = document.createElement("p");
+  pFollowers.textContect = dataObj.followers;
+
+  const pFollowing = document.createElement("p");
+  pFollowing.textContect = dataObj.following;
+
+  const pBio = document.createElement("p");
+  pBio.textContect = dataObj.bio;
+
+  divCard.appendChild(image);
+  divCard.appendChild(divCardInfo);
+  divCardInfo.appendChild(h3);
+  divCardInfo.appendChild(pUsername);
+  divCardInfo.appendChild(pLocation);
+  divCardInfo.appendChild(pProfile);
+  divCardInfo.appendChild(pFollowers);
+  divCardInfo.appendChild(pFollowing);
+  divCardInfo.appendChild(pBio);
+  pProfile.appendChild(link);
+  // console.log(divCard);
+
+  document.querySelector(".cards").appendChild(divCard);
+}
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
